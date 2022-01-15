@@ -1,0 +1,71 @@
+---
+title: "bee-decline"
+author: "Chris Gaskell"
+date: "11/01/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libs}
+library(tidyverse)
+
+library(ggpattern) # new package! 
+```
+
+```{r input, echo=FALSE}
+tuesdata <- tidytuesdayR::tt_load('2022-01-11')
+colony <- tuesdata$colony
+stressor <- tuesdata$stressor
+```
+
+```{r polar practice}
+stressor %>%
+  filter(state == "Alabama" & months == "January-March" & 
+           year == "2020") %>% 
+  #dplyr::group_by(season) %>%
+  #dplyr::summarize(o3 = median(o3)) %>%
+  ggplot(aes(x = stressor, y = stress_pct, fill = stressor)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("white","black", "#985b10", "grey",'#896800', "#FFCC66")) +
+      coord_polar() +
+      labs(x = "", y = "Stressor Score") +
+      theme_bw() +
+      theme(axis.text.x = element_blank())#+
+  #facet_wrap(~ months, nrow = 2)
+```
+
+```{r polar practice2}
+stressor %>%
+  filter(state == "Alabama" & #months == "January-March" & 
+           year == "2020") %>% 
+  #dplyr::group_by(season) %>%
+  #dplyr::summarize(o3 = median(o3)) %>%
+  ggplot(aes(x = stressor, y = stress_pct, fill = stressor)) +
+  geom_col(colour = "black") +
+  scale_fill_manual(values = c("white","black", "#985b10", "grey",'#896800', "#FFCC66")) +
+      coord_polar() +
+      labs(x = "", y = "Stressor Score") +
+      theme_bw() +
+      theme(axis.text.x = element_blank())+
+  facet_wrap(~ months, nrow = 2)
+```
+
+```{r pattern}
+stressor %>%
+  filter(state == "Alabama" & #months == "January-March" & 
+           year == "2020") %>% 
+  #dplyr::group_by(season) %>%
+  #dplyr::summarize(o3 = median(o3)) %>%
+  ggplot() +
+  geom_col_pattern(aes(x = stressor, y = stress_pct, fill = stressor, pattern_fill = stressor)) +
+  scale_fill_manual(values = c("white","black", "#FFCC66", "white","black", "#FFCC66")) +
+      coord_polar() +
+      labs(x = "", y = "Stressor Score") +
+      theme_bw() +
+  facet_grid(~ months)
+
+```
+
